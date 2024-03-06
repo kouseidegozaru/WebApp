@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>{% block head_title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body class="bg-light">
+
+    <div class="container mt-4">
+      <div class="bg-white p-4">
+        <div class="jumbotron bg-info text-white">
+          <h3 class="display-4">顧客情報管理</h3>
+          {% if request.user.is_authenticated %}
+              <p class="lead">{{ request.user.username }}</p>
+          {% else %}
+              <p class="lead">You are not logged in.</p>
+          {% endif %}
+          <a class="btn btn-light" href="{% url 'account_logout' %}">ログアウト</a>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block extra_body %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "顧客情報管理(岩手リージョナルアイ様 デモ用)" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="mb-4">顧客情報一覧</h1>
+
+            <form class="mb-4" method="GET" action="{% url 'search' %}" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="keyword" placeholder="検索...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">検索</button>
+                    </div>
+                </div>
+                <small class="form-text text-muted">
+                    <a href="{% url 'customer_list' %}" class="text-secondary">クリア</a>
+                </small>
+            </form>
+            <a href="{% url 'customer_form' %}" class="btn btn-success">顧客情報登録</a>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">姓</th>
+                            <th scope="col">名</th>
+                            <th scope="col">性別</th>
+                            <th scope="col">年齢</th>
+                            <th scope="col">電話番号</th>
+                            <th scope="col">メールアドレス</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if customer_items %}
+                        {% for customer_item in customer_items %}
+                            <tr>
+                                <td>{{ customer_item.first_name }}</td>
+                                <td>{{ customer_item.last_name }}</td>
+                                <td>{{ customer_item.gender }}</td>
+                                <td>{{ customer_item.age }}</td>
+                                <td>{{ customer_item.phone_number }}</td>
+                                <td>{{ customer_item.email }}</td>
+                                <td><a href="{% url 'delete_customer' pk=customer_item.id%}" class="text-danger">削除</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">検索結果がありません。</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
